@@ -1,39 +1,30 @@
-using namespace std;
 #include<bits/stdc++.h>
-string multiply(string &A, string& B) {
-    vector<int> a;
-    vector<int> b;
-    for(int i=0;i<A.size();i++){
-        a.push_back(A[i]-'0');
-    }
-    for(int i=0;i<B.size();i++){
-        b.push_back(B[i]-'0');
-    }
-     
-     int num1=0;
-     int num2=0;
-     int n=A.size();
-     int m=B.size();
-     for(int i=0;i<A.size();i++){
-         num1+=a[i]*pow(10,n-1-i);
-     }
-      for(int i=0;i<B.size();i++){
-         num2+=b[i]*pow(10,m-1-i);
-     }
-     long long val=num1*num2;
-     string s="";
-     while(val>0){
-         int x=val%10;
-         s.push_back(x+'0');
-         val=val/10;
-     }
-     reverse(s.begin(),s.end());
-     return s;
-     
+using namespace std;
+int f(int i, vector<int> adj[],vector<int> &dp){
+        int sum=0;
+        if(dp[i]!=-1)return dp[i];
+         for(auto it: adj[i]){
+
+            if(adj[i].size()==0)return 0;
+                sum+=f(it,adj,dp)+1;
+         }
+         return dp[i]= sum;
 }
 int main(){
-    string A="12";
-    string B="10";
-    cout<<multiply(A,B);
+    int n;
+    cin>>n;
+    vector<int> v(n);
+    v[0]=-1;
+    vector<int> adj[n+1];
+    for(int i=1;i<n;i++){
+        cin>>v[i];
+        adj[v[i]].push_back(i+1);
+    }
+    vector<int> dp(n+1,-1);
+    int x=f(1,adj,dp);
+   for(int i=1;i<=n;i++){
+        cout<<dp[i]<<" ";
+   }
+
 
 }
